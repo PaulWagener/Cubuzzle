@@ -180,10 +180,10 @@ static void nearCallback(void *data, dGeomID o1, dGeomID o2)
 
 	int i;
     for (i = 0; i < n; i++) {
-		contact[i].surface.mode = dContactBounce;
-		contact[i].surface.mu = 50;
+		contact[i].surface.mode = dContactBounce | dContactApprox1;
+		contact[i].surface.mu = 500;
 		contact[i].surface.bounce = 0.1;
-		contact[i].surface.bounce_vel = 0.1;
+		//contact[i].surface.bounce_vel = 0.5;
     
 
       dJointID c = dJointCreateContact(world,contactGroup,&contact[i]);
@@ -304,7 +304,7 @@ int main( int argc, char **argv ){
 	GX_SetCopyFilter(rmode->aa,rmode->sample_pattern,GX_TRUE,rmode->vfilter);
 	GX_SetFieldMode(rmode->field_rendering,((rmode->viHeight==2*rmode->xfbHeight)?GX_ENABLE:GX_DISABLE));
  
-	GX_SetCullMode(GX_CULL_BACK);
+	GX_SetCullMode(GX_CULL_FRONT);
 	GX_CopyDisp(frameBuffer[fb],GX_TRUE);
 	GX_SetDispCopyGamma(GX_GM_1_0);
  
@@ -434,12 +434,12 @@ Left  6----7 |  Right      Back
 		
 		dMass mass;
 		dMassSetBox(&mass,1,1,1,1);
-		dMassAdjust(&mass,2.0f);
+		dMassAdjust(&mass,0.1f);
 		dBodySetMass(body,&mass);
 		
 		
 
-		dGeomID sphere = dCreateSphere(space, 0.15);
+		dGeomID sphere = dCreateSphere(space, 0.2);
 		//dGeomID sphere = dCreateBox(space, 0.4, 0.2, 0.4);
 		dGeomSetBody(sphere, body);
 
@@ -655,68 +655,68 @@ Left  6----7 |  Right      Back
 
 			//ORANGE	FRONT
 			c1 = 1.0f; c2 = 0.5f; c3 = 0.0f;
-			GX_Position3f32( 1.0f, 1.0f,-1.0f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-1.0f, 1.0f,-1.0f);
+			GX_Position3f32( 1.0f, 1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-1.0f, 1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 1.0f, 1.0f, 1.0f);
+			GX_Position3f32(-1.0f, 1.0f,-1.0f);
+			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32( 1.0f, 1.0f,-1.0f);
 			GX_Color3f32(c1, c2, c3);
 
 			//RED		BACK
 			c1 = 1.0f; c2 = 0.0f; c3 = 0.0f;
-			GX_Position3f32( 1.0f,-1.0f, 1.0f);
+			GX_Position3f32( 1.0f,-1.0f,-1.0f);
+			GX_Color3f32(1.0f,0.5f,0.0f);
+			GX_Position3f32(-1.0f,-1.0f,-1.0f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-1.0f,-1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-1.0f,-1.0f,-1.0f);
+			GX_Position3f32( 1.0f,-1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 1.0f,-1.0f,-1.0f);
-			GX_Color3f32(1.0f,0.5f,0.0f);
 
 			//WHITE		TOP
 			c1 = 1.0f; c2 = 1.0f; c3 = 1.0f;
-			GX_Position3f32( 1.0f, 1.0f, 1.0f);
+			GX_Position3f32( 1.0f,-1.0f, 1.0f);
+			GX_Color3f32(c1, c2, c3);			
+			GX_Position3f32(-1.0f,-1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-1.0f, 1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-1.0f,-1.0f, 1.0f);
+			GX_Position3f32( 1.0f, 1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 1.0f,-1.0f, 1.0f);
-			GX_Color3f32(c1, c2, c3);
-
+			
 			//YELLOW	BOTTOM
 			c1 = 1.0f; c2 = 1.0f; c3 = 0.0f;
+			GX_Position3f32( 1.0f, 1.0f,-1.0f);
+			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32(-1.0f, 1.0f,-1.0f);
+			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32(-1.0f,-1.0f,-1.0f);
+			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32( 1.0f,-1.0f,-1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-1.0f,-1.0f,-1.0f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-1.0f, 1.0f,-1.0f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 1.0f, 1.0f,-1.0f);
-			GX_Color3f32(c1, c2, c3);
-
+			
 			//GREEN		LEFT
 			c1 = 0.0f; c2 = 1.0f; c3 = 0.0f;
-			GX_Position3f32(-1.0f, 1.0f, 1.0f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-1.0f, 1.0f,-1.0f);
+			GX_Position3f32(-1.0f,-1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-1.0f,-1.0f,-1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-1.0f,-1.0f, 1.0f);
+			GX_Position3f32(-1.0f, 1.0f,-1.0f);
 			GX_Color3f32(c1, c2, c3);
-
+			GX_Position3f32(-1.0f, 1.0f, 1.0f);
+			GX_Color3f32(c1, c2, c3);
+			
 			//BLUE		RIGHT
 			c1 = 0.0f; c2 = 0.0f; c3 = 1.0f;
-			GX_Position3f32( 1.0f, 1.0f,-1.0f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 1.0f, 1.0f, 1.0f);
+			GX_Position3f32( 1.0f,-1.0f,-1.0f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32( 1.0f,-1.0f, 1.0f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 1.0f,-1.0f,-1.0f);
+			GX_Position3f32( 1.0f, 1.0f, 1.0f);
+			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32( 1.0f, 1.0f,-1.0f);
 			GX_Color3f32(c1, c2, c3);
 
 		GX_End();									// Done Drawing The Quad 
@@ -740,8 +740,16 @@ Left  6----7 |  Right      Back
 			grav *= -1;
 		}
 		
+		
+		
 		dWorldSetGravity(world, x*grav*10, y*grav*10, z*grav*-10);
-
+		
+		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_2) {
+			dBodySetPosition(body, -0.5, -0.5, -0.9);
+			dBodySetLinearVel(body, -10, 10, 0);
+			dBodySetAngularVel(body, 0, 0, 0);
+		}
+		
 		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_A) {
 			dMatrix3 RR;
 			dRSetIdentity(RR);
@@ -752,7 +760,7 @@ Left  6----7 |  Right      Back
 		}
 		
 		dSpaceCollide(space, 0, &nearCallback);
-		dWorldQuickStep(world, 0.06f);
+		dWorldQuickStep(world, 0.04f);
 		dJointGroupEmpty(contactGroup);
 		
 	
@@ -788,76 +796,75 @@ Left  6----7 |  Right      Back
 			c1 = 1.0f; c2 = 0.5f; c3 = 0.0f;
 			c1 /= 2; c2 /= 2; c3 /= 2;
 			
-			GX_Position3f32( 0.1f, 0.1f, 0.1f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-0.1f, 0.1f, 0.1f);
+			GX_Position3f32( 0.1f, 0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-0.1f, 0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 0.1f, 0.1f,-0.1f);
+			GX_Position3f32(-0.1f, 0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
-
+			GX_Position3f32( 0.1f, 0.1f, 0.1f);
+			GX_Color3f32(c1, c2, c3);
 
 			//RED		BACK
 			c1 = 1.0f; c2 = 0.0f; c3 = 0.0f;
 			c1 /= 2; c2 /= 2; c3 /= 2;
-			GX_Position3f32( 0.1f,-0.1f,-0.1f);
-			GX_Color3f32(0.1f,0.5f,0.0f);
-			GX_Position3f32(-0.1f,-0.1f,-0.1f);
+			GX_Position3f32( 0.1f,-0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-0.1f,-0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 0.1f,-0.1f, 0.1f);
+			GX_Position3f32(-0.1f,-0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32( 0.1f,-0.1f,-0.1f);
+			GX_Color3f32(0.1f,0.5f,0.0f);
 			
 			//WHITE		TOP
 			c1 = 1.0f; c2 = 1.0f; c3 = 1.0f;
 			c1 /= 2; c2 /= 2; c3 /= 2;
-			GX_Position3f32( 0.1f,-0.1f, 0.1f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-0.1f,-0.1f, 0.1f);
+			GX_Position3f32( 0.1f, 0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-0.1f, 0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 0.1f, 0.1f, 0.1f);
+			GX_Position3f32(-0.1f,-0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32( 0.1f,-0.1f, 0.1f);
+			GX_Color3f32(c1, c2, c3);			
 			
 			//YELLOW	BOTTOM
 			c1 = 1.0f; c2 = 1.0f; c3 = 0.0f;
 			c1 /= 2; c2 /= 2; c3 /= 2;
-			
-			GX_Position3f32( 0.1f, 0.1f,-0.1f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-0.1f, 0.1f,-0.1f);
+			GX_Position3f32( 0.1f,-0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-0.1f,-0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 0.1f,-0.1f,-0.1f);
+			GX_Position3f32(-0.1f, 0.1f,-0.1f);
+			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32( 0.1f, 0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
 			
 			//GREEN		LEFT
 			c1 = 0.0f; c2 = 1.0f; c3 = 0.0f;
 			c1 /= 2; c2 /= 2; c3 /= 2;
-			GX_Position3f32(-0.1f,-0.1f, 0.1f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-0.1f,-0.1f,-0.1f);
+			GX_Position3f32(-0.1f, 0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32(-0.1f, 0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32(-0.1f, 0.1f, 0.1f);
+			GX_Position3f32(-0.1f,-0.1f,-0.1f);
+			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32(-0.1f,-0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
 
 			//BLUE		RIGHT
 			c1 = 0.0f; c2 = 0.0f; c3 = 1.0f;
 			c1 /= 2; c2 /= 2; c3 /= 2;
-			GX_Position3f32( 0.1f,-0.1f,-0.1f);
-			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 0.1f,-0.1f, 0.1f);
+			GX_Position3f32( 0.1f, 0.1f,-0.1f);
 			GX_Color3f32(c1, c2, c3);
 			GX_Position3f32( 0.1f, 0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
-			GX_Position3f32( 0.1f, 0.1f,-0.1f);
+			GX_Position3f32( 0.1f,-0.1f, 0.1f);
 			GX_Color3f32(c1, c2, c3);
+			GX_Position3f32( 0.1f,-0.1f,-0.1f);
+			GX_Color3f32(c1, c2, c3);
+
 		GX_End();									// Done Drawing The Quad 
 		
 		// do this stuff after drawing
